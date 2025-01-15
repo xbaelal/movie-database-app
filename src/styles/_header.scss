@@ -3,12 +3,12 @@ header {
   background-color: $blue-color-1;
   color: $white;
   padding: 1em;
-}
-h1 {
-  max-width: 50%;
-  margin: 0 auto;
-  text-align: center;
-  @media #{$mobL} {
-    font-size: 1.2em;
+  h1 {
+    max-width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    @media #{$mobL} {
+      font-size: 1.2em;
+    }
   }
 }

@@ -63,9 +63,9 @@ const Home = () => {
       {loading && page === 1 ? (
         <Loader />
       ) : error ? (
-        <h3>{error}</h3> // Display error or no results found message
+        <h3>{error}</h3>
       ) : searchQuery && movies.length === 0 ? (
-        <h3>No results found for your search.</h3> // Specific message for no results found
+        <h3 className="error-h3">No results found for your search.</h3>
       ) : (
         <div className="movie-grid">
           {movies.map((movie: any) => (

@@ -47,21 +47,35 @@ const Details = () => {
   if (!details) return <p>No Details Found</p>;
 
   return (
-    <section>
-      <button onClick={() => navigate(-1)} className="back-button">
-        Back
-      </button>
-      <img src={`https://image.tmdb.org/t/p/w500${details?.poster_path}`} alt={details?.title || details?.name} />
-      <h1>{details?.title || details?.name}</h1>
-      <p>{details?.overview}</p>
-      <p>Release Date: {details?.release_date || details?.first_air_date}</p>
-      <p>Ratings: {details?.vote_average}</p>
-      <ul>
-        Genres:
-        {details.genres.map((genre: any) => {
-          return <li key={genre.id}>{genre.name}</li>;
-        })}
-      </ul>
+    <section className="details-section">
+      <div className="btn-wrapper">
+        <button onClick={() => navigate(-1)} className="back-button">
+          Back
+        </button>
+      </div>
+      <div className="heading">
+        <h1>{details?.title || details?.name}</h1>
+      </div>
+      <div className="detail">
+        <div className="img-wrapper">
+          <img src={`https://image.tmdb.org/t/p/w500${details?.poster_path}`} alt={details?.title || details?.name} />
+        </div>
+        <div className="content">
+          <p>Release Date: {details?.release_date || details?.first_air_date}</p>
+          <p>Ratings: {details?.vote_average}</p>
+          <div className="genre-container">
+            <p>Genres:</p>
+            <ul>
+              {details.genres.map((genre: any) => {
+                return <li key={genre.id}>{genre.name}</li>;
+              })}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div className="desc">
+        <p>{details?.overview}</p>
+      </div>
     </section>
   );
 };
