@@ -1,7 +1,9 @@
 const Header = () => {
   return (
     <header>
-      <h1>Movies & TV Shows</h1>
+      <h1>
+        <a href="/">Movies & TV Shows</a>
+      </h1>
     </header>
   );
 };

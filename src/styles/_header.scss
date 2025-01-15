@@ -10,5 +10,12 @@ header {
     @media #{$mobL} {
       font-size: 1.2em;
     }
+    a {
+      text-decoration: none;
+      color: white;
+      &:active {
+        text-decoration: none;
+      }
+    }
   }
 }
