@@ -8,4 +8,7 @@ h1 {
   max-width: 50%;
   margin: 0 auto;
   text-align: center;
+  @media #{$mobL} {
+    font-size: 1.2em;
+  }
 }

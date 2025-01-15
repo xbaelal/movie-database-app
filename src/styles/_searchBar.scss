@@ -11,6 +11,16 @@
       padding: 0.5em 1em;
       border-radius: 1em;
       border: 1px solid $gray-color-1;
+      @media #{$ipadpro} {
+        width: 30em;
+      }
+      @media #{$mobL} {
+        width: 15em;
+        padding: 0.3em 0.8em;
+      }
+      &:focus {
+        outline: none;
+      }
     }
     &__btn {
       margin: 0;
@@ -27,5 +37,10 @@
     font-weight: 700;
     margin: 0 1em;
     cursor: pointer;
+    @media #{$mobL} {
+      width: 6em;
+      margin: 0 0.5em;
+      font-size: 1em;
+    }
   }
 }

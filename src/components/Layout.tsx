@@ -5,7 +5,7 @@ const Layout = () => {
   return (
     <div>
       <Header />
-      <main style={{ padding: "20px" }}>
+      <main>
         <Outlet />
       </main>
     </div>

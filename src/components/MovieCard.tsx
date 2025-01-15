@@ -18,11 +18,14 @@ const MovieCard: React.FC<MovieCardProps> = ({ id, type, title, posterPath, rele
   };
 
   return (
-    <div className="movie-card" onClick={handleCardClick}>
+    <div className="movie-card">
       <img src={posterUrl} alt={title} className="movie-card__image" />
       <div className="movie-card__info">
         <h3>{title}</h3>
         <p>{releaseDate}</p>
+        <div className="button-container">
+          <button onClick={handleCardClick}>View Details</button>
+        </div>
       </div>
     </div>
   );
