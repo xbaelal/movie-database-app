@@ -3,6 +3,8 @@ import MovieCard from "../components/MovieCard";
 import SearchBar from "../components/SearchBar";
 import { fetchMovies, fetchTVShows } from "../api";
 import Loader from "../components/Loader"; // Import the loader component
+import GenreFilter from "../components/GenreFilter";
+import { useGenres } from "../context/GenresContext";
 
 const Home = () => {
   const [movies, setMovies] = useState<any[]>([]);
@@ -12,14 +14,20 @@ const Home = () => {
   const [page, setPage] = useState(1);
   const [hasMoreResults, setHasMoreResults] = useState(true);
   const [error, setError] = useState<string>("");
+  const [selectedGenre, setSelectedGenre] = useState<number | undefined>(undefined);
+
+  const { moviesGenre, tvGenre } = useGenres();
 
   const handleSearch = async () => {
     if (loading) return; // Prevent fetching if already loading
     setLoading(true);
+    setError("");
 
     try {
-      let data;
-      data = searchType === "movie" ? await fetchMovies(searchQuery, page) : await fetchTVShows(searchQuery, page);
+      const data =
+        searchType === "movie"
+          ? await fetchMovies(searchQuery, page, selectedGenre)
+          : await fetchTVShows(searchQuery, page, selectedGenre);
       setHasMoreResults(data?.page < data?.total_pages);
       setMovies((prevMovies) => [...prevMovies, ...(data?.results || [])]);
     } catch (err) {
@@ -60,6 +68,16 @@ const Home = () => {
         setSearchType={setSearchType}
         setSearchQuery={setSearchQuery}
       />
+      <GenreFilter
+        genres={searchType === "movie" ? moviesGenre : tvGenre}
+        // onSelect={(genreId) => {
+        //   setSelectedGenre(genreId);
+        //   setMovies([]);
+        //   setPage(1);
+        //   handleSearch();
+        // }}
+      />
+
       {loading && page === 1 ? (
         <Loader />
       ) : error ? (
@@ -76,6 +94,7 @@ const Home = () => {
               releaseDate={searchType === "movie" ? movie.release_date : movie.first_air_date}
               id={movie.id}
               type={searchType}
+              genreIds={movie.genre_ids}
             />
           ))}
         </div>
