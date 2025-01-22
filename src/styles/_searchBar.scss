@@ -27,20 +27,29 @@
     }
   }
   button {
-    width: 8em;
     background-color: $gray-color-1;
     border: none;
-    padding: 0.3em;
+    padding: 0.3em 1em;
     border-radius: 2em;
     color: $blue-color-1;
     font-size: 1.2em;
     font-weight: 700;
     margin: 0 1em;
     cursor: pointer;
+    &:focus {
+      background-color: $blue-color-1;
+      color: $white;
+    }
     @media #{$mobL} {
-      width: 6em;
       margin: 0 0.5em;
       font-size: 1em;
+      padding: 0.3em 0.5em;
     }
   }
+}
+
+.search-toggle {
+  display: flex;
+  justify-content: center;
+  align-content: center;
 }

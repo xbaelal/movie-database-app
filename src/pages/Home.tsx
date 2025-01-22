@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
 import SearchBar from "../components/SearchBar";
-import { fetchMovies, fetchTVShows } from "../api";
+import { fetchMovies, fetchMoviesByGenre, fetchTVShows, fetchTVShowsByGenre } from "../api";
 import Loader from "../components/Loader"; // Import the loader component
 import GenreFilter from "../components/GenreFilter";
-import { useGenres } from "../context/GenresContext";
 
 const Home = () => {
   const [movies, setMovies] = useState<any[]>([]);
@@ -16,18 +15,28 @@ const Home = () => {
   const [error, setError] = useState<string>("");
   const [selectedGenre, setSelectedGenre] = useState<number | undefined>(undefined);
 
-  const { moviesGenre, tvGenre } = useGenres();
+  const handleGenreSelect = async (genreId: number) => {
+    setLoading(true);
+    setSelectedGenre(genreId);
+    try {
+      const data =
+        searchType === "movie" ? await fetchMoviesByGenre(genreId, 1) : await fetchTVShowsByGenre(genreId, 1);
+      setMovies(data?.results || []);
+    } catch (error) {
+      console.error("Error fetching items by genre:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSearch = async () => {
-    if (loading) return; // Prevent fetching if already loading
+    if (loading) return;
     setLoading(true);
     setError("");
 
     try {
       const data =
-        searchType === "movie"
-          ? await fetchMovies(searchQuery, page, selectedGenre)
-          : await fetchTVShows(searchQuery, page, selectedGenre);
+        searchType === "movie" ? await fetchMovies(searchQuery, page) : await fetchTVShows(searchQuery, page);
       setHasMoreResults(data?.page < data?.total_pages);
       setMovies((prevMovies) => [...prevMovies, ...(data?.results || [])]);
     } catch (err) {
@@ -45,6 +54,10 @@ const Home = () => {
       setPage((prevPage) => prevPage + 1);
     }
   };
+
+  useEffect(() => {
+    setMovies([]);
+  }, [searchType]);
 
   useEffect(() => {
     if (page > 1) {
@@ -68,15 +81,8 @@ const Home = () => {
         setSearchType={setSearchType}
         setSearchQuery={setSearchQuery}
       />
-      <GenreFilter
-        genres={searchType === "movie" ? moviesGenre : tvGenre}
-        // onSelect={(genreId) => {
-        //   setSelectedGenre(genreId);
-        //   setMovies([]);
-        //   setPage(1);
-        //   handleSearch();
-        // }}
-      />
+
+      <GenreFilter onSelect={handleGenreSelect} searchType={searchType} />
 
       {loading && page === 1 ? (
         <Loader />

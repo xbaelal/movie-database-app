@@ -2,33 +2,37 @@ import React from "react";
 import { useGenres } from "../context/GenresContext";
 
 interface GenreFilterProps {
-  genres: { id: number; name: string }[];
+  onSelect: (genreId: number) => void;
+  searchType: string;
 }
-const GenreFilter: React.FC<GenreFilterProps> = () => {
+
+const GenreFilter: React.FC<GenreFilterProps> = ({ onSelect, searchType }) => {
   const { moviesGenre, tvGenre } = useGenres();
 
-  if (!moviesGenre.length) {
+  if (!moviesGenre.length || !tvGenre.length) {
     return <p>Loading genres...</p>;
   }
 
   return (
     <section>
-      <div>
-        <h3>Movie Genres</h3>
-        <ul>
+      {searchType === "movie" && (
+        <div className="genre-filter">
           {moviesGenre.map((genre) => (
-            <li key={genre.id}>{genre.name}</li>
+            <button key={genre.id} onClick={() => onSelect(genre.id)}>
+              {genre.name}
+            </button>
           ))}
-        </ul>
-      </div>
-      <div>
-        <h3>TV Shows Genres</h3>
-        <ul>
+        </div>
+      )}
+      {searchType === "tv" && (
+        <div className="genre-filter">
           {tvGenre.map((genre) => (
-            <li key={genre.id}>{genre.name}</li>
+            <button key={genre.id} onClick={() => onSelect(genre.id)}>
+              {genre.name}
+            </button>
           ))}
-        </ul>
-      </div>
+        </div>
+      )}
     </section>
   );
 };
