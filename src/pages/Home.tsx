@@ -23,7 +23,7 @@ const Home = () => {
         searchType === "movie" ? await fetchMoviesByGenre(genreId, 1) : await fetchTVShowsByGenre(genreId, 1);
       setMovies(data?.results || []);
     } catch (error) {
-      console.error("Error fetching items by genre:", error);
+      console.error("Error fetching items by genre:", error, selectedGenre);
     } finally {
       setLoading(false);
     }
